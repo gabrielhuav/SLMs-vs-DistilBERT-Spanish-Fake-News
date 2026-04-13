@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Servicio 1: El motor de Inferencia (Ollama con GPU)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_server
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  # Servicio 2: Tu nueva página web
+  web_evaluator:
+    build: .
+    container_name: llm_web_ui
+    ports:
+      - "8501:8501" # Exponemos el puerto de la página web
+    volumes:
+      - .:/app
+    depends_on:
+      - ollama
+
+volumes:
+  ollama_data:
