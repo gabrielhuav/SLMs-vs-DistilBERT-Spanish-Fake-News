@@ -12,7 +12,7 @@ from io import BytesIO
 
 # --- CONFIGURACIÓN E INFRAESTRUCTURA ---
 OLLAMA_URL = "http://ollama:11434/api/generate"
-MODELO_LLM = "llama3.2"
+MODELO_LLM = "qwen2.5" 
 
 # Sesión HTTP persistente para evitar saturación de puertos en 61k registros
 http_session = requests.Session()
